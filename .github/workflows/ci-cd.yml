@@ -1,3 +1,4 @@
+# .github/workflows/ci-cd.yml
 name: Monorepo CI/CD
 
 on:
@@ -78,8 +79,9 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/ts-ambassador-service:latest
             ${{ secrets.DOCKER_USERNAME }}/ts-ambassador-service:${{ github.sha }}
-          build-args: # Pass build arguments to the Dockerfile
-            SHARED_SECRET: ${{ secrets.SHARED_SECRET }}
+          # Pass build arguments to the Dockerfile
+          build-args:
+            SHARED_SECRET: ${{ secrets.SERVICES_SECRET }}
 
   build-and-push-ts-target-service:
     runs-on: ubuntu-latest
@@ -102,5 +104,6 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/ts-target-service:latest
             ${{ secrets.DOCKER_USERNAME }}/ts-target-service:${{ github.sha }}
-          build-args: # Pass build arguments to the Dockerfile
-            SHARED_SECRET: ${{ secrets.SERVICES_SECRET }}
+          # Pass build arguments to the Dockerfile
+          build-args:
+            SHARED_SECRET: ${{ secrets.SERVICES_SECRET }} 
