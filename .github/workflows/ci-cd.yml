@@ -1,0 +1,106 @@
+name: Monorepo CI/CD
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'services/**' # Trigger only when changes occur in the 'services' directory
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'services/**'
+
+jobs:
+  build-and-push-nest-pubsub-service:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push NestJS Pub/Sub Service Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./services/nest-pubsub-service
+          file: ./services/nest-pubsub-service/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/nest-pubsub-service:latest
+            ${{ secrets.DOCKER_USERNAME }}/nest-pubsub-service:${{ github.sha }}
+
+  build-and-push-nest-db-service:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push NestJS DB Service Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./services/nest-db-service
+          file: ./services/nest-db-service/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/nest-db-service:latest
+            ${{ secrets.DOCKER_USERNAME }}/nest-db-service:${{ github.sha }}
+
+  build-and-push-ts-ambassador-service:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push TypeScript Ambassador Service Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./services/ts-ambassador-service
+          file: ./services/ts-ambassador-service/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/ts-ambassador-service:latest
+            ${{ secrets.DOCKER_USERNAME }}/ts-ambassador-service:${{ github.sha }}
+          build-args: # Pass build arguments to the Dockerfile
+            SHARED_SECRET: ${{ secrets.SHARED_SECRET }}
+
+  build-and-push-ts-target-service:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push TypeScript Target Service Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./services/ts-target-service
+          file: ./services/ts-target-service/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/ts-target-service:latest
+            ${{ secrets.DOCKER_USERNAME }}/ts-target-service:${{ github.sha }}
+          build-args: # Pass build arguments to the Dockerfile
+            SHARED_SECRET: ${{ secrets.SHARED_SECRET }}
