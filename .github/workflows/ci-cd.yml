@@ -104,6 +104,6 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/target:latest
             ${{ secrets.DOCKER_USERNAME }}/target:${{ github.sha }}
-          # Pass build arguments to the Dockerfile
+          # Pass build arguments to the Dockerfilee
           build-args: |
             SHARED_SECRET=${{ secrets.SERVICES_SECRET }}
