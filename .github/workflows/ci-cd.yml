@@ -103,4 +103,4 @@ jobs:
             ${{ secrets.DOCKER_USERNAME }}/ts-target-service:latest
             ${{ secrets.DOCKER_USERNAME }}/ts-target-service:${{ github.sha }}
           build-args: # Pass build arguments to the Dockerfile
-            SHARED_SECRET: ${{ secrets.SHARED_SECRET }}
+            SHARED_SECRET: ${{ secrets.SERVICES_SECRET }}

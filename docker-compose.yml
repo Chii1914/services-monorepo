@@ -8,9 +8,9 @@ services:
       - microservice-network
 
   # NestJS Pub/Sub Service
-  nest-pubsub-service:
+  pubsub-service:
     build:
-      context: ./services/nest-pubsub-service
+      context: ./services/pub-sub
       dockerfile: Dockerfile
     ports:
       - "3001:3001" # Expose HTTP port to host
@@ -22,9 +22,9 @@ services:
       - microservice-network
 
   # NestJS Private DB Read/Write Service
-  nest-db-service:
+  write-read-db-service:
     build:
-      context: ./services/nest-db-service
+      context: ./services/write-read-db
       dockerfile: Dockerfile
     ports:
       - "3002:3002" # Expose HTTP port to host
@@ -32,9 +32,9 @@ services:
       - microservice-network
 
   # NestJS (TypeScript) Target Service (internal service for Ambassador)
-  ts-target-service:
+  target-service:
     build:
-      context: ./services/ts-target-service
+      context: ./services/target
       dockerfile: Dockerfile
     # No direct port exposure needed as it's meant to be accessed via ambassador internally
     # You can expose it for direct debugging if needed:
@@ -44,17 +44,17 @@ services:
       - microservice-network
 
   # NestJS (TypeScript) Ambassador Service
-  ts-ambassador-service:
+  ambassador-service:
     build:
-      context: ./services/ts-ambassador-service
+      context: ./services/ambassador
       dockerfile: Dockerfile
     ports:
       - "3003:3003" # Expose HTTP port to host (this is what clients will connect to)
     depends_on: # Ensure target service starts before ambassador
-      - ts-target-service
+      - target-service
     environment:
       # Ambassador needs to know the internal network name of the target service
-      TARGET_SERVICE_URL: http://ts-target-service:3004
+      TARGET_SERVICE_URL: http://localhost:3004
     networks:
       - microservice-network
 
