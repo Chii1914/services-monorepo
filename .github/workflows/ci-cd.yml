@@ -6,12 +6,12 @@ on:
     branches:
       - main
     paths:
-      - 'services/**' # Trigger only when changes occur in the 'services' directory
+      - "services/**" # Trigger only when changes occur in the 'services' directory
   pull_request:
     branches:
       - main
     paths:
-      - 'services/**'
+      - "services/**"
 
 jobs:
   build-and-push-pub-sub:
@@ -80,8 +80,8 @@ jobs:
             ${{ secrets.DOCKER_USERNAME }}/ambassador:latest
             ${{ secrets.DOCKER_USERNAME }}/ambassador:${{ github.sha }}
           # Pass build arguments to the Dockerfile
-          build-args:
-            SHARED_SECRET: ${{ secrets.SERVICES_SECRET }}
+          build-args: |
+            SHARED_SECRET=${{ secrets.SERVICES_SECRET }}
 
   build-and-push-target:
     runs-on: ubuntu-latest
@@ -105,5 +105,5 @@ jobs:
             ${{ secrets.DOCKER_USERNAME }}/target:latest
             ${{ secrets.DOCKER_USERNAME }}/target:${{ github.sha }}
           # Pass build arguments to the Dockerfile
-          build-args:
-            SHARED_SECRET: ${{ secrets.SERVICES_SECRET }} 
+          build-args: |
+            SHARED_SECRET=${{ secrets.SERVICES_SECRET }}
