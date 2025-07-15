@@ -14,7 +14,7 @@ on:
       - 'services/**'
 
 jobs:
-  build-and-push-nest-pubsub-service:
+  build-and-push-pub-sub:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -29,14 +29,14 @@ jobs:
       - name: Build and push NestJS Pub/Sub Service Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./services/nest-pubsub-service
-          file: ./services/nest-pubsub-service/Dockerfile
+          context: ./services/pub-sub
+          file: ./services/pub-sub/Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/nest-pubsub-service:latest
-            ${{ secrets.DOCKER_USERNAME }}/nest-pubsub-service:${{ github.sha }}
+            ${{ secrets.DOCKER_USERNAME }}/pub-sub:latest
+            ${{ secrets.DOCKER_USERNAME }}/pub-sub:${{ github.sha }}
 
-  build-and-push-nest-db-service:
+  build-and-push-write-read-db:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -51,14 +51,14 @@ jobs:
       - name: Build and push NestJS DB Service Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./services/nest-db-service
-          file: ./services/nest-db-service/Dockerfile
+          context: ./services/write-read-db
+          file: ./services/write-read-db/Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/nest-db-service:latest
-            ${{ secrets.DOCKER_USERNAME }}/nest-db-service:${{ github.sha }}
+            ${{ secrets.DOCKER_USERNAME }}/write-read-db:latest
+            ${{ secrets.DOCKER_USERNAME }}/write-read-db:${{ github.sha }}
 
-  build-and-push-ts-ambassador-service:
+  build-and-push-ambassador:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -73,17 +73,17 @@ jobs:
       - name: Build and push TypeScript Ambassador Service Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./services/ts-ambassador-service
-          file: ./services/ts-ambassador-service/Dockerfile
+          context: ./services/ambassador
+          file: ./services/ambassador/Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/ts-ambassador-service:latest
-            ${{ secrets.DOCKER_USERNAME }}/ts-ambassador-service:${{ github.sha }}
+            ${{ secrets.DOCKER_USERNAME }}/ambassador:latest
+            ${{ secrets.DOCKER_USERNAME }}/ambassador:${{ github.sha }}
           # Pass build arguments to the Dockerfile
           build-args:
             SHARED_SECRET: ${{ secrets.SERVICES_SECRET }}
 
-  build-and-push-ts-target-service:
+  build-and-push-target:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -98,12 +98,12 @@ jobs:
       - name: Build and push TypeScript Target Service Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./services/ts-target-service
-          file: ./services/ts-target-service/Dockerfile
+          context: ./services/target
+          file: ./services/target/Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/ts-target-service:latest
-            ${{ secrets.DOCKER_USERNAME }}/ts-target-service:${{ github.sha }}
+            ${{ secrets.DOCKER_USERNAME }}/target:latest
+            ${{ secrets.DOCKER_USERNAME }}/target:${{ github.sha }}
           # Pass build arguments to the Dockerfile
           build-args:
             SHARED_SECRET: ${{ secrets.SERVICES_SECRET }} 
