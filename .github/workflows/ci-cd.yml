@@ -123,7 +123,6 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Removed writing secrets to .env file for security
 
       - name: Pull and Deploy Docker Compose Services
         working-directory: . 
