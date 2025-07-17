@@ -80,7 +80,7 @@ jobs:
             ${{ secrets.DOCKER_USERNAME }}/ambassador:latest
             ${{ secrets.DOCKER_USERNAME }}/ambassador:${{ github.sha }}
           build-args: |
-            JWT_SECRET: ${{ secrets.JWT_SECRET }}
+            JWT_SECRET=${{ secrets.JWT_SECRET }}
 
   build-and-push-target:
     runs-on: self-hosted
@@ -123,14 +123,13 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Set up environment variables for Docker Compose
-
-        run: |
-          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" > .env
-          echo "TARGET_SERVICE_URL=http://localhost:3004" >> .env # Add other necessary vars for compose
+      # Removed writing secrets to .env file for security
 
       - name: Pull and Deploy Docker Compose Services
         working-directory: . 
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          TARGET_SERVICE_URL: http://localhost:3004
         run: |
           echo "Stopping existing services..."
           docker compose down --remove-orphans || true # '|| true' prevents failure if no services are running
