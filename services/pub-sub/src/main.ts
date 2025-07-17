@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
@@ -11,6 +12,11 @@ async function bootstrap() {
   if (!process.env.REDIS_HOST || !process.env.REDIS_PORT || !process.env.PUB_SUB_PORT) {
     throw new Error('REDIS_HOST, REDIS_PORT, and PUB_SUB_PORT environment variables must be set');
   }
+  app.useGlobalPipes(new ValidationPipe({
+    whitelist: true, // Strips properties not defined in the DTO
+    forbidNonWhitelisted: true, // Throws error if non-whitelisted properties are present
+    transform: true, // Automatically transforms incoming payload to DTO instance
+  }));
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.REDIS,
     options: {
