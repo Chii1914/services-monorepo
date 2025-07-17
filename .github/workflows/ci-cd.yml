@@ -35,6 +35,11 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/pub-sub:latest
             ${{ secrets.DOCKER_USERNAME }}/pub-sub:${{ github.sha }}
+          build-args: |
+            JWT_SECRET=${{ secrets.JWT_SECRET }}
+            REDIS_HOST=${{ secrets.REDIS_HOST }}
+            REDIS_PORT=${{ secrets.REDIS_PORT }}
+            REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}
 
   build-and-push-write-read-db:
     runs-on: self-hosted

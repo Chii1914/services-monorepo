@@ -6,14 +6,16 @@ services:
       context: ./services/pub-sub
       dockerfile: Dockerfile
     ports:
-      - "3001:3001" # Expose HTTP port to host
-    env_file:
-      - ./services/.env
+      - "3001:3001" # Expose HTTP port 
+    expose:
+      - "3005" 
     environment:
-      REDIS_HOST: localhost
-      REDIS_PORT: 6379
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
+
+      PUB_SUB_PORT: 3001
       WS_PORT: 3005
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
     networks:
       - microservice-network
 
@@ -55,7 +57,3 @@ services:
 networks:
   microservice-network:
     driver: bridge
-
-volumes:
-  cache:
-    driver: local
