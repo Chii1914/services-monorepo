@@ -6,7 +6,7 @@ services:
       context: ./services/pub-sub
       dockerfile: Dockerfile
     ports:
-      - "3001:3001" # Expose HTTP port to host
+      - "3001:3001" # Expose HTTP port 
     expose:
       - "3005" 
     environment:
@@ -54,7 +54,6 @@ services:
     networks:
       - microservice-network
 
-# Define a custom network for all services to communicate on
 networks:
   microservice-network:
     driver: bridge

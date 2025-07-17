@@ -134,6 +134,9 @@ jobs:
         env:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           TARGET_SERVICE_URL: http://localhost:3004
+          REDIS_HOST: localhost
+          REDIS_PORT: 6379
+          REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
         run: |
           echo "Stopping existing services..."
           docker compose down --remove-orphans || true # '|| true' prevents failure if no services are running
