@@ -26,7 +26,7 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   private readonly logger = new Logger(EventsGateway.name);
 
   onModuleInit() {
-    this.logger.log(`WebSocket Gateway initialized. Socket.IO server should be listening on port ${process.env.WS_PORT || '3005'}`);
+    this.logger.log(` Gateway initialized. Socket.IO server should be listening on port ${process.env.WS_PORT || '3005'}`);
 
   }
   handleConnection(client: Socket, ...args: any[]) {
