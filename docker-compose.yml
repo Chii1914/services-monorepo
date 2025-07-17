@@ -7,8 +7,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3001:3001" # Expose HTTP port to host
+    env_file:
+      - ./services/.env
     environment:
-      REDIS_HOST: cache
+      REDIS_HOST: localhost
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
     networks:
       - microservice-network
 

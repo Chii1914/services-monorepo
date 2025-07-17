@@ -17,7 +17,10 @@ if (!jwtSecret) {
   console.error('JWT_SECRET no definido, esperando.');
   process.exit(1);
 }
-
+app.get('/status', (req: Request, res: Response) => {
+  console.log(`Target service: Se recibe verificación de estado autenticada desde ${req.ip}`);
+  res.send('👍');
+});
 app.use(express.json()); 
 app.use((req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers['authorization'];
@@ -45,11 +48,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.get('/', (req: Request, res: Response) => {
   console.log(`Target service: Se recibe método ${req.method} ${req.originalUrl} desde ${req.ip}`);
   res.json({ medicamentos: meds });
-});
-
-app.get('/status', (req: Request, res: Response) => {
-  console.log(`Target service: Se recibe verificación de estado autenticada desde ${req.ip}`);
-  res.send('👍');
 });
 
 app.listen(targetPort, () => {

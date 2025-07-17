@@ -25,8 +25,13 @@ if (!targetServiceUrl) {
 }
 
 
-app.use(express.json()); 
-app.use(express.urlencoded({ extended: true })); 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.get('/status', (req: Request, res: Response) => {
+  console.log(`Target service: Se recibe verificación de estado autenticada desde ${req.ip}`);
+  res.send('👍');
+});
 
 app.all('*', async (req: Request, res: Response) => {
   const originalUrl = req.originalUrl;
@@ -42,9 +47,9 @@ app.all('*', async (req: Request, res: Response) => {
   try {
 
     const token = jwt.sign(
-      { service: 'ambassador', userId: req.ip }, 
-      jwtSecret,                                            
-      { expiresIn: '1h' }                                   
+      { service: 'ambassador', userId: req.ip },
+      jwtSecret,
+      { expiresIn: '1h' }
     );
 
     const axiosConfig: AxiosRequestConfig = {
@@ -52,17 +57,17 @@ app.all('*', async (req: Request, res: Response) => {
       url: proxyTargetUrl,
       headers: {
         ...headers,
-        'Authorization': `Bearer ${token}` 
+        'Authorization': `Bearer ${token}`
       },
       data: body,
-      validateStatus: () => true, 
+      validateStatus: () => true,
       timeout: 10000,
     };
 
     if (axiosConfig.headers) {
       delete axiosConfig.headers['host'];
       delete axiosConfig.headers['connection'];
-      delete axiosConfig.headers['content-length']; 
+      delete axiosConfig.headers['content-length'];
     }
 
     const targetResponse: AxiosResponse = await axios(axiosConfig);

@@ -8,8 +8,8 @@ dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  if (!process.env.REDIS_HOST || !process.env.REDIS_PORT) {
-    throw new Error('REDIS_HOST and REDIS_PORT environment variables must be set');
+  if (!process.env.REDIS_HOST || !process.env.REDIS_PORT || !process.env.PUB_SUB_PORT) {
+    throw new Error('REDIS_HOST, REDIS_PORT, and PUB_SUB_PORT environment variables must be set');
   }
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.REDIS,
@@ -22,7 +22,7 @@ async function bootstrap() {
 
   // Start both the HTTP server and the microservice listeners.
   await app.startAllMicroservices();
-  const httpPort = parseInt(process.env.PORT || '3001', 10);
+  const httpPort = parseInt(process.env.PUB_SUB_PORT, 10);
   await app.listen(httpPort, () => {
     console.log(`NestJS Pub/Sub Service en ${httpPort} Redis conectado`);
   });
