@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 
 const app = express();
 const port = process.env.PORT || 3004;
-const jwtSecret = process.env.JWT_SECRET || 'your_super_secret_jwt_key_default'; // Default secret for dev
+const jwtSecret = process.env.JWT_SECRET || 'default'; // Default secret for dev
 
 app.use(express.json()); // Enable JSON body parsing
 
