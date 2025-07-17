@@ -2,11 +2,28 @@ import express from 'express';
 import { Request, Response } from 'express';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+import path from 'path';
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 const app = express();
-const port = process.env.PORT || 3003;
-const targetServiceUrl = process.env.TARGET_SERVICE_URL || 'http://localhost:3004';
-const jwtSecret = process.env.JWT_SECRET || 'default'; 
+const port = process.env.AMBASSADOR_PORT;
+const targetServiceUrl = process.env.TARGET_SERVICE_URL;
+const jwtSecret = process.env.JWT_SECRET;
+
+if (!port) {
+  console.error('AMBASSADOR_PORT no definido, esperando.');
+  process.exit(1);
+}
+if (!jwtSecret) {
+  console.error('JWT_SECRET no definido, esperando.');
+  process.exit(1);
+}
+if (!targetServiceUrl) {
+  console.error('TARGET_SERVICE_URL no definido, esperando.');
+  process.exit(1);
+}
+
 
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true })); 
@@ -74,5 +91,5 @@ app.all('*', async (req: Request, res: Response) => {
 });
 
 app.listen(port, () => {
-  console.log(`JWT-Issuing Ambassador Service listening on HTTP port ${port}.`);
+  console.log(`Ambassador escuchando el puerto: ${port}`);
 });
