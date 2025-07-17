@@ -26,7 +26,6 @@ async function bootstrap() {
     },
   });
 
-  // Start both the HTTP server and the microservice listeners.
   await app.startAllMicroservices();
   const httpPort = parseInt(process.env.PUB_SUB_PORT, 10);
   await app.listen(httpPort, () => {
