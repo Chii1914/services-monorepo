@@ -1,11 +1,4 @@
 services:
-  # Redis service for NestJS Pub/Sub
-  redis:
-    image: redis:6.2-alpine
-    ports:
-      - "6379:6379" # Expose Redis port to host
-    networks:
-      - microservice-network
 
   # NestJS Pub/Sub Service
   pubsub-service:
@@ -15,9 +8,9 @@ services:
     ports:
       - "3001:3001" # Expose HTTP port to host
     depends_on: # Ensure Redis starts before this service
-      - redis
+      - cache
     environment:
-      REDIS_HOST: redis
+      REDIS_HOST: cache
     networks:
       - microservice-network
 
@@ -31,7 +24,7 @@ services:
     networks:
       - microservice-network
 
-  # NestJS (TypeScript) Target Service (internal service for Ambassador)
+  # NestJS (TypeScript) Target Service
   target-service:
     build:
       context: ./services/target
@@ -60,3 +53,7 @@ services:
 networks:
   microservice-network:
     driver: bridge
+
+volumes:
+  cache:
+    driver: local
