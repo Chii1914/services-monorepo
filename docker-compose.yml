@@ -7,10 +7,15 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3001:3001" # Expose HTTP port to host
-    depends_on: # Ensure Redis starts before this service
-      - cache
+    expose:
+      - "3005" 
     environment:
-      REDIS_HOST: cache
+
+      PUB_SUB_PORT: 3001
+      WS_PORT: 3005
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
     networks:
       - microservice-network
 
