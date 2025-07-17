@@ -15,7 +15,7 @@ on:
 
 jobs:
   build-and-push-pub-sub:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -37,7 +37,7 @@ jobs:
             ${{ secrets.DOCKER_USERNAME }}/pub-sub:${{ github.sha }}
 
   build-and-push-write-read-db:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -59,7 +59,7 @@ jobs:
             ${{ secrets.DOCKER_USERNAME }}/write-read-db:${{ github.sha }}
 
   build-and-push-ambassador:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -84,7 +84,7 @@ jobs:
             SHARED_SECRET=${{ secrets.SERVICES_SECRET }}
 
   build-and-push-target:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

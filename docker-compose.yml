@@ -36,10 +36,9 @@ services:
     build:
       context: ./services/target
       dockerfile: Dockerfile
-    # No direct port exposure needed as it's meant to be accessed via ambassador internally
-    # You can expose it for direct debugging if needed:
-    # ports:
-    #   - "3004:3004"
+    # No es necesario, ya que acceden internamente, pero iwal
+    ports:
+       - "3004:3004"
     networks:
       - microservice-network
 
@@ -49,11 +48,10 @@ services:
       context: ./services/ambassador
       dockerfile: Dockerfile
     ports:
-      - "3003:3003" # Expose HTTP port to host (this is what clients will connect to)
-    depends_on: # Ensure target service starts before ambassador
+      - "3003:3003" 
+    depends_on: 
       - target-service
     environment:
-      # Ambassador needs to know the internal network name of the target service
       TARGET_SERVICE_URL: http://localhost:3004
     networks:
       - microservice-network
