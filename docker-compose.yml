@@ -58,7 +58,3 @@ services:
 networks:
   microservice-network:
     driver: bridge
-
-volumes:
-  cache:
-    driver: local
