@@ -18,5 +18,20 @@ export const meds = [
         "med": "aspirina",
         "farmacia": "Farmacias del Dr. Simi",
         "direccion": "Av. Vicuña Mackenna 1010, Ñuñoa"
+    },
+    {
+        "med": "omeprazol",
+        "farmacia": "Farmacias Ahumada",
+        "direccion": "Av. Libertador Bernardo O'Higgins 2000, Santiago"
+    },
+    {
+        "med": "loratadina",
+        "farmacia": "Cruz Verde",
+        "direccion": "Av. Los Leones 3000, Providencia"
+    },
+    {
+        "med": "cetirizina",
+        "farmacia": "Salcobrand",
+        "direccion": "Av. Santa María 4000, Recoleta"
     }
 ]
