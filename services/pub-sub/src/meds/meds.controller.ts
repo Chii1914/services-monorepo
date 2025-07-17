@@ -2,7 +2,6 @@ import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
 import { ClientProxy, EventPattern } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 import { UrgentMedicalAlertDto } from './dto/urgentmedical.dto'; // Adjust the import path as necessary
-import { EventsGateway } from '../events/events.gateway'; // <-- ADDED IMPORT
 
 
 
@@ -14,7 +13,6 @@ interface MessagePayload {
 export class MedsController {
   constructor(
     @Inject('redis') private client: ClientProxy,
-    private readonly eventsGateway: EventsGateway
   ) { }
 
   @Post('publish-event')
@@ -46,7 +44,6 @@ export class MedsController {
     if (alert.notes) {
       console.warn(`Notas: ${alert.notes}`);
     }
-    this.eventsGateway.broadcastUrgentMedicalAlert(alert);
 
   }
 

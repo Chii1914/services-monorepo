@@ -3,7 +3,6 @@ import { MedsController } from './meds.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
-import { EventsGateway } from '../events/events.gateway'; // <-- ADDED IMPORT
 
 // Load environment variables
 dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
@@ -22,6 +21,6 @@ dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
     },
   ]),],
   controllers: [MedsController],
-  providers: [EventsGateway],
+  providers: [],
 })
 export class MedsModule { }
