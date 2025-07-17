@@ -3,7 +3,7 @@ name: Monorepo CI/CD
 
 on:
   push:
-    branches:
+    branches: #Branch que mira
       - main
     paths:
       - "services/**" 
